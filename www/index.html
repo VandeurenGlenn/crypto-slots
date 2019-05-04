@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Crypto Slots</title>
+    <meta name="theme-color" value="#3b4750">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <script>
+      (async () => {
+        try {
+          window.registration = await navigator.serviceWorker.register('/service-worker.js');
+          registration.onupdatefound = () => {
+            // notifyUpdate();
+          };
+          console.log('Registration successful, scope is:', registration.scope);
+        } catch (error) {
+          console.log('Service worker registration failed, error:', error);
+        }
+      })();
+    </script>
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <custom-svg-iconset>
+      <defs><svg>
+        <g id="autospin"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></g>
+      </svg></defs>
+    </custom-svg-iconset>
+    <crypto-slots></crypto-slots>
+    <script type="module">
+      import('./iconset.js');
+      import('./slots.js');
+    </script>
+  </body>
+</html>
