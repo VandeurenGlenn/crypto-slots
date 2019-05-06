@@ -9,7 +9,7 @@
     <script>
       (async () => {
         try {
-          window.registration = await navigator.serviceWorker.register('/service-worker.js');
+          window.registration = await navigator.serviceWorker.register('./service-worker.js');
           registration.onupdatefound = () => {
             // notifyUpdate();
           };
