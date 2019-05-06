@@ -61,7 +61,7 @@ export default define(class SlotRing extends HTMLElement {
         this.container.appendChild(slot);
         if (this.runs <= this.rollTime) {
           this.runs += 1;
-          return resolve(this.renderSymbols(currentSymbols, nextSymbols))
+          return resolve(await this.renderSymbols(currentSymbols, nextSymbols))
         } else {
           const max = this.container.children.length - 5;
           for (let i = 0; i < max; ++i) {
