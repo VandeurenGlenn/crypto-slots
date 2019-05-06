@@ -25,6 +25,9 @@
     "c": "rollup -c",
     "w": "rollup -c -w",
     "precache": "sw-precache --config=sw-precache-config.js",
+    "preversion": "npm run c && npm run precache",
+    "postversion": "npm run deploy",
+    "deploy": "sh deploy.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
