@@ -19,18 +19,6 @@ export default define(class SlotRing extends HTMLElement {
   get slots() {
     return this.getAttribute('slots') || 5;
   }
-  get slotAngle() {
-    return 360 / Number(this.slots);
-  }
-
-  get ringSlotHeight() {
-    return window.slots.get(this._name).slotHeight;
-  }
-
-  get reelRadius() {
-    return Math.round( ( this.ringSlotHeight / 2) / Math.tan( Math.PI / Number(this.slots)) );
-    // return 187;
-  }
   get container() {
     return this.shadowRoot.querySelector('.container')
   }
