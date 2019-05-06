@@ -25,6 +25,27 @@ export default define(class SlotReel extends HTMLElement {
 
   }
 
+  showBonusRound() {
+    return new Promise((resolve, reject) => {
+      this.bonusHero.classList.add('opened');
+      setTimeout(() => {
+        this.bonusHero.classList.remove('opened');
+        resolve();
+      }, 2000);
+    });
+  }
+
+  promisSpins() {
+    return new Promise(async (resolve, reject) => {
+    // await this.multiplier.forEach(async multi => {
+      this.wins += await this.spin(this.betAmount);
+      --this.multiplier;
+      if (this.multiplier > 1) await this.promisSpins();
+      resolve();
+      // })
+    });
+  }
+
   promiseFil(slot, joker) {
     return new Promise((resolve, reject) => {
       for (const child of slot) {
@@ -46,12 +67,17 @@ export default define(class SlotReel extends HTMLElement {
         const result = fil.filter(f => {
           if (f._name !== 'btc') return f;
         });
+        for (const f of fil) {
+          await f.win();
+        }
         if (result.length === 0) {
           this.multiplier = this.multiplier * multiplier;
-          const wins = await this.multiplier.forEach(async multi => {
-            await this.spin(this.betAmount);
-          })
-          resolve(wins);
+          await this.showBonusRound();
+          await this.promisSpins();
+          this.multiplier = 1;
+          this.winAmount = this.wins;
+          this.wins = 0;
+          resolve(this.winAmount);
         } else {
           // console.log();
           console.log(this.winAmount, Math.round((this.multiplier * this.bet)));
@@ -60,7 +86,7 @@ export default define(class SlotReel extends HTMLElement {
           resolve(this.winAmount)
         }
       } else {
-        resolve()
+        resolve(this.winAmount)
       }
     });
   }
@@ -87,8 +113,8 @@ export default define(class SlotReel extends HTMLElement {
     document.dispatchEvent(new CustomEvent('spin-end'));
 
     console.log({win: this.winAmount});
-
-    this.multiplier = 1;
+    this.wins += this.winAmount;
+    // this.multiplier = 1;
     this.winAmount = 0;
     console.log('END');
   }
@@ -123,12 +149,16 @@ export default define(class SlotReel extends HTMLElement {
     ).then(resolved => this.onSpinEnd(resolved));
 
   }
+  get bonusHero() {
+    return this.shadowRoot.querySelector('.bonus-hero');
+  }
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
 
     this.multiplier = 1;
     this.winAmount = 0;
+    this.wins = 0;
     this.shadowRoot.innerHTML = `<style>
       :host, .container {
         display: flex;
@@ -151,6 +181,20 @@ export default define(class SlotReel extends HTMLElement {
         top: 0;
         bottom: 0;
       }
+      .bonus-hero {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 240px;
+        width: 240px;
+        background: #fff;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .opened {
+        opacity: 1;
+      }
     </style>
     <span class="container">
       <slot-ring slots="12"></slot-ring>
@@ -158,6 +202,10 @@ export default define(class SlotReel extends HTMLElement {
       <slot-ring slots="12"></slot-ring>
       <slot-ring slots="12"></slot-ring>
       <slot-ring slots="12"></slot-ring>
+    </span>
+
+    <span class="bonus-hero">
+      <h2>Bonus Round!</h2>
     </span>
     `;
 
