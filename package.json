@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "backed": "^0.13.0",
-    "cryptocurrency-icons": "^0.13.0",
+    "cryptocurrency-icons": "^0.18.0",
     "custom-renderer-mixin": "^1.1.2",
     "custom-selector": "^0.2.0",
     "custom-svg-icon": "^0.10.2",
