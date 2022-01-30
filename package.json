@@ -7,7 +7,7 @@
     "backed": "^0.13.0",
     "cryptocurrency-icons": "^0.13.0",
     "custom-renderer-mixin": "^1.1.2",
-    "custom-selector": "^0.2.0",
+    "custom-selector": "^0.2.1",
     "custom-svg-icon": "^0.10.2",
     "custom-svg-iconset": "^0.9.2",
     "lucky-numbers": "^1.0.1"
